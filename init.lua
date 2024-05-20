@@ -554,8 +554,10 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        clangd = {},
-        -- gopls = {},
+        clangd = {
+          cmd = { '/Users/xk0nsid/.local/share/nvim/mason/bin/clangd', '--query-driver="/usr/bin/clang++"' },
+        },
+        gopls = {},
         -- pyright = {},
         rust_analyzer = {},
         elixirls = {},
@@ -775,6 +777,13 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'voldikss/vim-floaterm',
+    init = function()
+      vim.keymap.set('n', '<leader>tt', ':FloatermToggle<CR>', {})
+    end,
+  },
+
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
@@ -819,7 +828,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'go', 'rust', 'cpp' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -894,6 +903,14 @@ require('lazy').setup({
 
 require 'custom.neovide'
 require 'custom.golden'
+
+vim.api.nvim_create_autocmd({ 'TermOpen' }, {
+  pattern = { 'term://*' },
+  callback = function(_)
+    vim.opt.number = false
+    vim.opt.relativenumber = false
+  end,
+})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

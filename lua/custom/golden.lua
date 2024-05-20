@@ -21,13 +21,13 @@ local function on_win_enter()
   end
 
   local golden_height = math.floor(rows / GOLDEN_RATIO)
+
   if current_height < golden_height then
     vim.api.nvim_win_set_height(0, golden_height)
   end
 end
 
 vim.api.nvim_create_autocmd({ 'WinEnter' }, {
-  callback = function(ev)
-    on_win_enter()
-  end,
+  pattern = { '*.*', 'term://*' },
+  callback = on_win_enter,
 })
