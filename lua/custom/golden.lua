@@ -28,6 +28,6 @@ local function on_win_enter()
 end
 
 vim.api.nvim_create_autocmd({ 'WinEnter' }, {
-  pattern = { '*.*', 'term://*' },
+  pattern = { '*.*', 'term://*', 'Makefile', 'Dockerfile' },
   callback = on_win_enter,
 })
