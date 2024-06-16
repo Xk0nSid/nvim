@@ -554,13 +554,13 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        clangd = {
-          cmd = { '/Users/xk0nsid/.local/share/nvim/mason/bin/clangd', '--query-driver="/usr/bin/clang++"' },
-        },
+        -- cmd = { '/Users/xk0nsid/.local/share/nvim/mason/bin/clangd', '--query-driver="/usr/bin/clang++"' },
+        clangd = {},
         gopls = {},
         -- pyright = {},
         rust_analyzer = {},
         elixirls = {},
+        ocamllsp = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -643,6 +643,7 @@ require('lazy').setup({
         }
       end,
       formatters_by_ft = {
+        ocaml = { 'ocamlformat' },
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
@@ -828,7 +829,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'go', 'rust', 'cpp' },
+      ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'go', 'rust', 'cpp', 'ocaml' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -871,7 +872,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
@@ -904,6 +905,7 @@ require('lazy').setup({
 require 'custom.neovide'
 require 'custom.golden'
 
+-- Don't show line numbers in terminal window
 vim.api.nvim_create_autocmd({ 'TermOpen' }, {
   pattern = { 'term://*' },
   callback = function(_)

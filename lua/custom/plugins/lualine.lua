@@ -1,27 +1,27 @@
 return {
   'nvim-lualine/lualine.nvim',
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
+  dependencies = { 'nvim-tree/nvim-web-devicons', 'folke/noice.nvim' },
   config = function()
     -- Eviline config for lualine
     -- Author: shadmansaleh
     -- Credit: glepnir
     local lualine = require 'lualine'
 
--- Color table for highlights
--- stylua: ignore
-local colors = {
-  bg       = '#202328',
-  fg       = '#bbc2cf',
-  yellow   = '#ECBE7B',
-  cyan     = '#008080',
-  darkblue = '#081633',
-  green    = '#98be65',
-  orange   = '#FF8800',
-  violet   = '#a9a1e1',
-  magenta  = '#c678dd',
-  blue     = '#51afef',
-  red      = '#ec5f67',
-}
+    -- Color table for highlights
+    -- stylua: ignore
+    local colors = {
+      bg       = '#202328',
+      fg       = '#bbc2cf',
+      yellow   = '#ECBE7B',
+      cyan     = '#008080',
+      darkblue = '#081633',
+      green    = '#98be65',
+      orange   = '#FF8800',
+      violet   = '#a9a1e1',
+      magenta  = '#c678dd',
+      blue     = '#51afef',
+      red      = '#ec5f67',
+    }
 
     local conditions = {
       buffer_not_empty = function()
@@ -59,7 +59,18 @@ local colors = {
         lualine_z = {},
         -- These will be filled later
         lualine_c = {},
-        lualine_x = {},
+        lualine_x = {
+          {
+            require('noice').api.statusline.mode.get,
+            cond = require('noice').api.statusline.mode.has,
+            color = { fg = '#ff9e64' },
+          },
+          {
+            require('noice').api.status.command.get,
+            cond = require('noice').api.status.command.has,
+            color = { fg = '#ff9e64' },
+          },
+        },
       },
       inactive_sections = {
         -- these are to remove the defaults
